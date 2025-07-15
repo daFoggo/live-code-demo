@@ -1,6 +1,6 @@
 "use client";
 
-import { LibraryBig, Webcam } from "lucide-react";
+import { LibraryBig } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
@@ -34,14 +34,9 @@ const NavigationTab = () => {
   const pathname = usePathname();
   const TABS: ITab[] = [
     {
-      label: "Exercises",
+      label: "Danh sách bài tập",
       href: "/dashboard/exercises",
       icon: <LibraryBig className="size-4" />,
-    },
-    {
-      label: "Mock Interviews",
-      href: "/dashboard/mock-interviews",
-      icon: <Webcam className="size-4" />,
     },
   ];
 
@@ -75,7 +70,7 @@ const LeftSection = () => {
   return (
     <div className="flex items-center gap-6">
       <AppLogo />
-      <Separator orientation="vertical" className="min-h-4" />
+      <Separator orientation="vertical" className="bg-muted-foreground min-h-4" />
       <NavigationTab />
     </div>
   );

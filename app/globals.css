@@ -206,22 +206,6 @@
   .container {
     @apply mx-auto px-4 md:px-6;
   }
-
-  .text-h1 {
-    @apply font-extrabold text-4xl text-balance;
-  }
-
-  .text-h2 {
-    @apply font-semibold text-3xl;
-  }
-
-  .text-h3 {
-    @apply font-semibold text-2xl;
-  }
-
-  .text-h4 {
-    @apply font-semibold text-xl;
-  }
 }
 
 /* Animation for dark/light mode transitions */

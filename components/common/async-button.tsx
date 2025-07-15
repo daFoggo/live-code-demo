@@ -30,10 +30,14 @@ const AsyncButton = React.forwardRef<HTMLButtonElement, AsyncButtonProps>(
     ref
   ) => {
     const isButtonDisabled = disabled || isLoading;
-    const displayIcon = isLoading ? <Loader2 className="size-4 animate-spin" /> : icon;
 
     const buttonContent = React.useMemo(() => {
       const text = isLoading && loadingText ? loadingText : children;
+      const displayIcon = isLoading ? (
+        <Loader2 className="size-4 animate-spin" />
+      ) : (
+        icon
+      );
 
       if (!displayIcon) {
         return text;
@@ -50,7 +54,7 @@ const AsyncButton = React.forwardRef<HTMLButtonElement, AsyncButtonProps>(
           {text}
         </>
       );
-    }, [isLoading, loadingText, children, displayIcon, iconPosition]);
+    }, [isLoading, loadingText, children, icon, iconPosition]);
 
     return (
       <Button
@@ -71,4 +75,3 @@ const AsyncButton = React.forwardRef<HTMLButtonElement, AsyncButtonProps>(
 AsyncButton.displayName = "AsyncButton";
 
 export { AsyncButton, type AsyncButtonProps };
-

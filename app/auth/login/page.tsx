@@ -3,13 +3,15 @@ import { LoginForm } from "@/features/auth";
 import { Suspense } from "react";
 
 const LoginPage = () => {
-  return <Suspense fallback={<PageLoader variant="bars" />}>
-    <div className="flex flex-col justify-center items-center bg-muted min-h-svh">
-      <div className="w-full max-w-sm md:max-w-3xl">
-        <LoginForm />
+  return (
+    <Suspense fallback={<PageLoader variant="bars" />}>
+      <div className="flex flex-col justify-center items-center bg-muted min-h-svh">
+        <div className="w-full max-w-sm md:max-w-3xl">
+          <LoginForm />
+        </div>
       </div>
-    </div>
-  </Suspense>;
+    </Suspense>
+  );
 };
 
 export default LoginPage;

@@ -5,6 +5,7 @@ import { swrConfig } from "@/lib/configs/swr";
 import { ThemeProvider } from "@/lib/contexts/theme-context";
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Lora } from "next/font/google";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { SWRConfig } from "swr";
 import "./globals.css";
 
@@ -31,7 +32,7 @@ const lora = Lora({
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
   subsets: ["latin"],
-})
+});
 
 export const metadata: Metadata = {
   title: APP_CONFIG.name,
@@ -48,14 +49,14 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${lora.variable} ${jetbrainsMono.variable} [--header-height:calc(--spacing(14))] antialiased`}
       >
-        <ThemeProvider defaultTheme="dark">
-          <SWRConfig value={swrConfig}>
-            <AuthProvider>
-              {children}
+        <AuthProvider>
+          <ThemeProvider defaultTheme="dark">
+            <SWRConfig value={swrConfig}>
+              <NuqsAdapter>{children}</NuqsAdapter>
               <Toaster position="top-center" richColors />
-            </AuthProvider>
-          </SWRConfig>
-        </ThemeProvider>
+            </SWRConfig>
+          </ThemeProvider>
+        </AuthProvider>
       </body>
     </html>
   );
