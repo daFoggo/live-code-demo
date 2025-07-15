@@ -5,7 +5,7 @@ import { Button } from "../ui/button";
 
 const HeaderNavigationButtons = () => {
   // const { isAuthenticated } = useAuthContext();
-  const isAuthenticated = false;
+  const isAuthenticated = true;
   const router = useRouter();
 
   const handleClick = () => {
