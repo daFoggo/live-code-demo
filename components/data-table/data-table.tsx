@@ -16,6 +16,7 @@ import { cn } from "@/lib/utils";
 interface DataTableProps<TData> extends React.ComponentProps<"div"> {
   table: TanstackTable<TData>;
   actionBar?: React.ReactNode;
+  onRowClick?: (row: TData) => void;
 }
 
 export function DataTable<TData>({
@@ -23,6 +24,7 @@ export function DataTable<TData>({
   actionBar,
   children,
   className,
+  onRowClick,
   ...props
 }: DataTableProps<TData>) {
   return (
@@ -48,7 +50,7 @@ export function DataTable<TData>({
                       ? null
                       : flexRender(
                           header.column.columnDef.header,
-                          header.getContext(),
+                          header.getContext()
                         )}
                   </TableHead>
                 ))}
@@ -60,21 +62,47 @@ export function DataTable<TData>({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
+                  data-state={row.getIsSelected() ? "selected" : undefined}
+                  onClick={() => onRowClick?.(row.original)}
+                  className={cn(
+                    "group transition-colors",
+                    onRowClick && "cursor-pointer",
+                    row.getIsSelected() && "bg-muted",
+                    onRowClick && "hover:bg-muted/50"
+                  )}
                 >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell
-                      key={cell.id}
-                      style={{
-                        ...getCommonPinningStyles({ column: cell.column }),
-                      }}
-                    >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
-                    </TableCell>
-                  ))}
+                  {row.getVisibleCells().map((cell) => {
+                    const pinningStyles = getCommonPinningStyles({
+                      column: cell.column,
+                    });
+
+                    return (
+                      <TableCell
+                        key={cell.id}
+                        style={{
+                          ...pinningStyles,
+                          background: "transparent",
+                        }}
+                        className={cn(
+                          // Apply background cho cell thay vì dùng inline style
+                          pinningStyles.background &&
+                            "[--cell-bg:var(--background)]",
+                          "relative",
+                          // Background layers
+                          "before:absolute before:inset-0 before:bg-[var(--cell-bg,transparent)] before:z-[-1]",
+                          // Hover state
+                          onRowClick && "group-hover:before:!bg-muted/50",
+                          // Selected state
+                          row.getIsSelected() && "before:!bg-muted"
+                        )}
+                      >
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    );
+                  })}
                 </TableRow>
               ))
             ) : (

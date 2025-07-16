@@ -1,5 +1,5 @@
 import PageHeader from "@/components/common/page-header";
-import { ExerciseTable } from "./ExerciseTable";
+import { ExerciseTable } from "./exercise-table";
 
 export const Exercises = () => {
   return (

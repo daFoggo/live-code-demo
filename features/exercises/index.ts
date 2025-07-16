@@ -1,1 +1,1 @@
-export * from "./components/Exercises"
+export * from "./components/exercises"

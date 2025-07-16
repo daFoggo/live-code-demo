@@ -20,14 +20,14 @@ const PageHeader = ({ breadcrumbs, title }: IPageHeader) => {
       <Breadcrumb>
         <BreadcrumbList>
           {breadcrumbs?.map((breadcrumb, index) => (
-            <>
-              <BreadcrumbItem key={index}>
-                <BreadcrumbLink href={breadcrumb.href}>
+            <div key={`breadcrumb-${index}`} className="flex items-center gap-2">
+              <BreadcrumbItem key={`item-${index}`}>
+                <BreadcrumbLink href={breadcrumb.href} key={`link-${index}`}>
                   {breadcrumb.label}
                 </BreadcrumbLink>
               </BreadcrumbItem>
-              <BreadcrumbSeparator key={`separator-index`} />
-            </>
+              <BreadcrumbSeparator key={`separator-${index}`} />
+            </div>
           ))}
         </BreadcrumbList>
       </Breadcrumb>
