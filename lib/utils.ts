@@ -20,7 +20,7 @@ export function formatCompactNumber(num: number): string {
 export const enumToOptions = <T extends Record<string, string>>(
   enumObject: T
 ): Array<{ label: string; value: T[keyof T] }> => {
-  return Object.entries(enumObject).map(([key, value]) => ({
+  return Object.entries(enumObject).map(([, value]) => ({
     label: value,
     value: value as T[keyof T],
   }));

@@ -17,7 +17,7 @@ const UserMenu = () => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Avatar className="cursor-pointer">
-          <AvatarImage />
+          <AvatarImage src={"https://api.dicebear.com/9.x/shapes/svg?seed=Jameson"} />
           <AvatarFallback>F</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>

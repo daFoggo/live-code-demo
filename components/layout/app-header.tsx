@@ -16,26 +16,25 @@ interface ITab {
   icon: React.ReactNode;
 }
 
-const DashboardHeader = () => {
+const AppHeader = () => {
   return (
     <ReuseHeader
       wrapByContainer={false}
       leftSection={<LeftSection />}
       rightSection={<RightSection />}
-      className="bg-sidebar"
       containerClassName="border-b"
     />
   );
 };
 
-export default DashboardHeader;
+export default AppHeader;
 
 const NavigationTab = () => {
   const pathname = usePathname();
   const TABS: ITab[] = [
     {
       label: "Danh sách bài tập",
-      href: "/dashboard/exercises",
+      href: "/exercises",
       icon: <LibraryBig className="size-4" />,
     },
   ];
@@ -70,7 +69,10 @@ const LeftSection = () => {
   return (
     <div className="flex items-center gap-6">
       <AppLogo />
-      <Separator orientation="vertical" className="bg-muted-foreground min-h-4" />
+      <Separator
+        orientation="vertical"
+        className="bg-muted-foreground min-h-4"
+      />
       <NavigationTab />
     </div>
   );

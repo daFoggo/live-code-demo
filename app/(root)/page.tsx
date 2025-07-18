@@ -1,13 +1,13 @@
-import { PageLoader } from "@/components/common/page-loader";
-import { Landing } from "@/features/landing";
-import { Suspense } from "react";
+import { redirect } from "next/navigation";
 
 const Page = () => {
-  return (
-    <Suspense fallback={<PageLoader variant="bars" />}>
-      <Landing />
-    </Suspense>
-  );
+  // return (
+  //   <Suspense fallback={<PageLoader variant="bars" />}>
+  //     <Landing />
+  //   </Suspense>
+  //   <
+  // );
+  redirect("/exercises");
 };
 
 export default Page;

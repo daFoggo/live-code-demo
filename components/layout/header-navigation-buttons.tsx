@@ -9,7 +9,7 @@ const HeaderNavigationButtons = () => {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push(isAuthenticated ? "/dashboard" : "/auth/login");
+    router.push(isAuthenticated ? "/exercises" : "/auth/login");
   };
 
   return (

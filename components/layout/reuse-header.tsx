@@ -39,7 +39,7 @@ export const ReuseHeader = ({
   }, [showScrollEffect]);
 
   const headerClasses = cn(
-    "w-full backdrop-blur-lg transition-all  duration-300",
+    "backdrop-blur-lg w-full transition-all duration-300",
     sticky && "sticky top-0 z-50",
     showScrollEffect && isScrolled
       ? "bg-background/90 shadow-sm border-b"

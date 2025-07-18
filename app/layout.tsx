@@ -1,4 +1,5 @@
 import { Toaster } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/features/auth/contexts/auth-provider";
 import { APP_CONFIG } from "@/lib/configs/app";
 import { swrConfig } from "@/lib/configs/swr";
@@ -52,7 +53,9 @@ export default function RootLayout({
         <AuthProvider>
           <ThemeProvider defaultTheme="dark">
             <SWRConfig value={swrConfig}>
-              <NuqsAdapter>{children}</NuqsAdapter>
+              <NuqsAdapter>
+                <TooltipProvider>{children}</TooltipProvider>
+              </NuqsAdapter>
               <Toaster position="top-center" richColors />
             </SWRConfig>
           </ThemeProvider>

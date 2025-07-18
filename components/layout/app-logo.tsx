@@ -17,7 +17,7 @@ export const AppLogo = ({
     <Link href={url} className={className}>
       <div className="flex items-center gap-3 font-bold">
         <VercelIcon className="size-4" />
-        {showName && <span className="hidden sm:inline">{APP_CONFIG.name}</span>}
+        {showName && <span className="hidden sm:inline text-foreground">{APP_CONFIG.name}</span>}
       </div>
     </Link>
   );
