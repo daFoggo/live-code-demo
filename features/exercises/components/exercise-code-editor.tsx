@@ -38,12 +38,12 @@ import {
   SquareChevronUp,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { IAIFeedbackParams } from "../services/ai-feedback";
 import {
   CODE_EDITOR_LANGUAGE_TEMPLATES,
   CODE_EDITOR_LANGUAGES,
 } from "../utils/constants";
 import type { IExercise, IMessage } from "../utils/types";
-import { IGeminiFeedbackParams } from "../services/gemini-feedback";
 
 interface IExerciseCodeEditorProps {
   exerciseData: IExercise;
@@ -52,7 +52,7 @@ interface IExerciseCodeEditorProps {
   toggleTestCaseCollapse?: () => void;
   isFullscreen?: boolean;
   toggleFullscreen?: () => void;
-  getFeedback: (params: IGeminiFeedbackParams) => Promise<IMessage>
+  getFeedback: (params: IAIFeedbackParams) => Promise<IMessage>;
 }
 
 export const ExerciseCodeEditor = ({
@@ -93,15 +93,36 @@ export const ExerciseCodeEditor = ({
     toggleFullscreen?.();
   };
 
-  const callGeminiFeedback = async () => {
+  // Commented out old Gemini feedback call
+  // const callGeminiFeedback = async () => {
+  //   if (exerciseData.statement && code.trim()) {
+  //     try {
+  //       await getFeedback({
+  //         code: code,
+  //         exerciseStatement: exerciseData.statement,
+  //       });
+  //     } catch (error) {
+  //       console.error("Lỗi khi gọi Gemini feedback:", error);
+  //     }
+  //   }
+  // };
+
+  // New AI feedback call
+  const callAIFeedback = async () => {
     if (exerciseData.statement && code.trim()) {
       try {
         await getFeedback({
-          code: code,
-          exerciseStatement: exerciseData.statement,
+          inputs: {
+            purpose: "Tìm hai chỉ số trong mảng sao cho tổng bằng target",
+            example_code:
+              "function twoSum(nums, target) {\n    const map = new Map();\n    for (let i = 0; i < nums.length; i++) {\n        const complement = target - nums[i];\n        if (map.has(complement)) {\n            return [map.get(complement), i];\n        }\n        map.set(nums[i], i);\n    }\n    return [];\n}",
+            user_code: code,
+          },
+          response_mode: "blocking",
+          user: "abc-123",
         });
       } catch (error) {
-        console.error("Lỗi khi gọi Gemini feedback:", error);
+        console.error("Lỗi khi gọi AI feedback:", error);
       }
     }
   };
@@ -119,8 +140,8 @@ export const ExerciseCodeEditor = ({
 
     if (code.trim() !== initialTemplate.trim() && code.trim() !== "") {
       debounceRef.current = setTimeout(() => {
-        callGeminiFeedback();
-      }, 30000);
+        callAIFeedback();
+      }, 3000);
     }
 
     return () => {

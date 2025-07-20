@@ -10,6 +10,7 @@ export interface IGeminiFeedbackParams {
   exerciseStatement: string;
 }
 
+
 export const geminiFeedbackServices = {
   getFeedback: async (params: IGeminiFeedbackParams) => {
     return (await fetcher(GEMINI_ENDPOINTS.FEEDBACK, {

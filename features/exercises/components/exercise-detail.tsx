@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/resizable";
 import { useCallback, useRef, useState } from "react";
 import { ImperativePanelHandle } from "react-resizable-panels";
-import { useGeminiFeedback } from "../hooks/use-get-gemini-feedback-swr";
+import { useAIFeedback } from "../hooks/use-get-ai-feedback-swr";
 import { SAMPLE_EXERCISE } from "../utils/constants";
 import { ExerciseChatPanel } from "./exercise-chat-panel";
 import { ExerciseCodeEditor } from "./exercise-code-editor";
@@ -21,6 +21,7 @@ const MIN_CHATBOT_COLLAPSED_SIZE = 5;
 const CHATBOT_UNCOLLAPSED_SIZE = 50;
 
 export const ExercisesDetail = () => {
+  //-------------UI State Management----------------
   const [isFullscreen, setIsFullscreen] = useState(false);
   const initialInfoDefaultSize = 50;
   const initialCodeDefaultSize = 65;
@@ -47,10 +48,6 @@ export const ExercisesDetail = () => {
   );
   const chatbotPanelRef = useRef<ImperativePanelHandle>(null);
   const isChatbotCollapsed = chatbotPanelSize <= MIN_CHATBOT_COLLAPSED_SIZE;
-
-  // Sử dụng hook useGeminiFeedback trong component cha
-  const { isGettingFeedback, messages, error, getFeedback, clearMessages } =
-    useGeminiFeedback(SAMPLE_EXERCISE[0].id || "default");
 
   const toggleExerciseInfoCollapse = useCallback(() => {
     if (!infoPanelRef.current || !chatbotPanelRef.current) return;
@@ -104,7 +101,12 @@ export const ExercisesDetail = () => {
     setIsFullscreen(!isFullscreen);
   }, [isFullscreen]);
 
-  // Giao diện toàn màn hình
+  //-------------AI Feedback Management----------------
+  // const { isGettingFeedback, messages, error, getFeedback, clearMessages } =
+  //   useGeminiFeedback(SAMPLE_EXERCISE[0].id || "default");
+  const { isGettingFeedback, messages, error, getFeedback, clearMessages } =
+    useAIFeedback(SAMPLE_EXERCISE[0].id || "default");
+
   if (isFullscreen) {
     return (
       <div className="top-[var(--header-height)] p-4 sm:p-6 h-[calc(100svh-var(--header-height))]">
@@ -152,7 +154,6 @@ export const ExercisesDetail = () => {
     );
   }
 
-  // Giao diện mặc định với các panel có thể thay đổi kích thước
   return (
     <div className="top-[var(--header-height)] p-4 sm:p-6 h-[calc(100svh-var(--header-height))]">
       <ResizablePanelGroup direction="horizontal">
