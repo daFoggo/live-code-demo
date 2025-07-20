@@ -141,7 +141,7 @@ export const ExerciseCodeEditor = ({
     if (code.trim() !== initialTemplate.trim() && code.trim() !== "") {
       debounceRef.current = setTimeout(() => {
         callAIFeedback();
-      }, 3000);
+      }, 30000);
     }
 
     return () => {
