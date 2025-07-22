@@ -109,34 +109,120 @@ export const ExercisesDetail = () => {
 
   if (isFullscreen) {
     return (
-      <div className="top-[var(--header-height)] p-4 sm:p-6 h-[calc(100svh-var(--header-height))]">
+      <div>
+        <div className="h-[calc(100svh-var(--header-height))]">
+          <ResizablePanelGroup direction="horizontal">
+            <ResizablePanel
+              ref={codePanelRef}
+              defaultSize={50}
+              minSize={MIN_CODE_COLLAPSED_SIZE}
+              maxSize={75}
+              className="py-4 sm:py-6 pr-3 pl-4 sm:pl-6"
+              onResize={setCodePanelSize}
+              id="code-editor-panel"
+            >
+              <ExerciseCodeEditor
+                exerciseData={SAMPLE_EXERCISE[0]}
+                isCollapsed={false}
+                toggleCollapse={toggleCodeEditorCollapse}
+                toggleTestCaseCollapse={toggleTestCaseCollapse}
+                isFullscreen={isFullscreen}
+                toggleFullscreen={toggleFullscreen}
+                getFeedback={getFeedback}
+              />
+            </ResizablePanel>
+            <ResizableHandle withHandle />
+            <ResizablePanel
+              ref={chatbotPanelRef}
+              defaultSize={50}
+              minSize={MIN_CHATBOT_COLLAPSED_SIZE}
+              maxSize={75}
+              className="py-4 sm:py-6 pr-4 sm:pr-6 pl-3"
+              onResize={setChatbotPanelSize}
+              id="chatbot-panel"
+            >
+              <ExerciseChatPanel
+                isCollapsed={isChatbotCollapsed}
+                toggleCollapse={toggleChatbotCollapse}
+                isGettingFeedback={isGettingFeedback}
+                messages={messages}
+                error={error}
+                clearMessages={clearMessages}
+              />
+            </ResizablePanel>
+          </ResizablePanelGroup>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <div className="h-[calc(100svh-var(--header-height))]">
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel
-            ref={codePanelRef}
-            defaultSize={50}
-            minSize={MIN_CODE_COLLAPSED_SIZE}
-            maxSize={75}
-            className="pr-3"
-            onResize={setCodePanelSize}
-            id="code-editor-panel"
+            ref={infoPanelRef}
+            defaultSize={initialInfoDefaultSize}
+            minSize={MIN_INFO_COLLAPSED_SIZE}
+            maxSize={70}
+            onResize={setInfoPanelSize}
+            className="py-4 sm:py-6 pr-3 pl-4 sm:pl-6"
+            id="info-panel"
           >
-            <ExerciseCodeEditor
+            <ExerciseInfo
               exerciseData={SAMPLE_EXERCISE[0]}
-              isCollapsed={false}
-              toggleCollapse={toggleCodeEditorCollapse}
-              toggleTestCaseCollapse={toggleTestCaseCollapse}
-              isFullscreen={isFullscreen}
-              toggleFullscreen={toggleFullscreen}
-              getFeedback={getFeedback}
+              isCollapsed={isExerciseInfoCollapsed}
+              toggleCollapse={toggleExerciseInfoCollapse}
             />
           </ResizablePanel>
           <ResizableHandle withHandle />
           <ResizablePanel
+            defaultSize={initialCodeTestContainerDefaultSize}
+            minSize={30}
+          >
+            <ResizablePanelGroup direction="vertical">
+              <ResizablePanel
+                ref={codePanelRef}
+                defaultSize={initialCodeDefaultSize}
+                minSize={MIN_CODE_COLLAPSED_SIZE}
+                className="px-3 pt-4 sm:pt-6 pb-3"
+                onResize={setCodePanelSize}
+                id="code-editor-panel"
+              >
+                <ExerciseCodeEditor
+                  exerciseData={SAMPLE_EXERCISE[0]}
+                  isCollapsed={isCodeEditorCollapsed}
+                  toggleCollapse={toggleCodeEditorCollapse}
+                  toggleTestCaseCollapse={toggleTestCaseCollapse}
+                  isFullscreen={isFullscreen}
+                  toggleFullscreen={toggleFullscreen}
+                  getFeedback={getFeedback}
+                />
+              </ResizablePanel>
+              <ResizableHandle withHandle />
+              <ResizablePanel
+                ref={testPanelRef}
+                defaultSize={initialTestDefaultSize}
+                minSize={MIN_TEST_COLLAPSED_SIZE}
+                className="px-3 pt-3 pb-4 sm:pb-6"
+                onResize={setTestPanelSize}
+                id="test-panel"
+              >
+                <ExerciseTestCase
+                  exerciseData={SAMPLE_EXERCISE[0]}
+                  isCollapsed={isTestCaseCollapsed}
+                  toggleCollapse={toggleTestCaseCollapse}
+                />
+              </ResizablePanel>
+            </ResizablePanelGroup>
+          </ResizablePanel>
+          <ResizableHandle withHandle />
+          <ResizablePanel
             ref={chatbotPanelRef}
-            defaultSize={50}
+            defaultSize={initialChatbotDefaultSize}
             minSize={MIN_CHATBOT_COLLAPSED_SIZE}
-            maxSize={75}
-            className="pl-3"
+            maxSize={50}
+            className="py-4 sm:py-6 pr-4 sm:pr-6 pl-3"
             onResize={setChatbotPanelSize}
             id="chatbot-panel"
           >
@@ -151,89 +237,6 @@ export const ExercisesDetail = () => {
           </ResizablePanel>
         </ResizablePanelGroup>
       </div>
-    );
-  }
-
-  return (
-    <div className="top-[var(--header-height)] p-4 sm:p-6 h-[calc(100svh-var(--header-height))]">
-      <ResizablePanelGroup direction="horizontal">
-        <ResizablePanel
-          ref={infoPanelRef}
-          defaultSize={initialInfoDefaultSize}
-          minSize={MIN_INFO_COLLAPSED_SIZE}
-          maxSize={70}
-          onResize={setInfoPanelSize}
-          className="pr-3"
-          id="info-panel"
-        >
-          <ExerciseInfo
-            exerciseData={SAMPLE_EXERCISE[0]}
-            isCollapsed={isExerciseInfoCollapsed}
-            toggleCollapse={toggleExerciseInfoCollapse}
-          />
-        </ResizablePanel>
-        <ResizableHandle withHandle />
-        <ResizablePanel
-          defaultSize={initialCodeTestContainerDefaultSize}
-          minSize={30}
-          className="px-3"
-        >
-          <ResizablePanelGroup direction="vertical">
-            <ResizablePanel
-              ref={codePanelRef}
-              defaultSize={initialCodeDefaultSize}
-              minSize={MIN_CODE_COLLAPSED_SIZE}
-              className="pb-3"
-              onResize={setCodePanelSize}
-              id="code-editor-panel"
-            >
-              <ExerciseCodeEditor
-                exerciseData={SAMPLE_EXERCISE[0]}
-                isCollapsed={isCodeEditorCollapsed}
-                toggleCollapse={toggleCodeEditorCollapse}
-                toggleTestCaseCollapse={toggleTestCaseCollapse}
-                isFullscreen={isFullscreen}
-                toggleFullscreen={toggleFullscreen}
-                getFeedback={getFeedback}
-              />
-            </ResizablePanel>
-            <ResizableHandle withHandle />
-            <ResizablePanel
-              ref={testPanelRef}
-              defaultSize={initialTestDefaultSize}
-              minSize={MIN_TEST_COLLAPSED_SIZE}
-              className="pt-3"
-              onResize={setTestPanelSize}
-              id="test-panel"
-            >
-              <ExerciseTestCase
-                exerciseData={SAMPLE_EXERCISE[0]}
-                isCollapsed={isTestCaseCollapsed}
-                toggleCollapse={toggleTestCaseCollapse}
-              />
-            </ResizablePanel>
-          </ResizablePanelGroup>
-        </ResizablePanel>
-        <ResizableHandle withHandle />
-        <ResizablePanel
-          ref={chatbotPanelRef}
-          defaultSize={initialChatbotDefaultSize}
-          minSize={MIN_CHATBOT_COLLAPSED_SIZE}
-          maxSize={50}
-          className="pl-3"
-          onResize={setChatbotPanelSize}
-          id="chatbot-panel"
-        >
-          <ExerciseChatPanel
-            isCollapsed={isChatbotCollapsed}
-            toggleCollapse={toggleChatbotCollapse}
-            isGettingFeedback={isGettingFeedback}
-            messages={messages}
-            error={error}
-            clearMessages={clearMessages}
-          />
-        </ResizablePanel>
-      </ResizablePanelGroup>
     </div>
   );
 };
