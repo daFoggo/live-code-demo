@@ -130,7 +130,7 @@ export const ExercisesDetail = () => {
               getFeedback={getFeedback}
             />
           </ResizablePanel>
-          <ResizableHandle />
+          <ResizableHandle withHandle />
           <ResizablePanel
             ref={chatbotPanelRef}
             defaultSize={50}
@@ -172,7 +172,7 @@ export const ExercisesDetail = () => {
             toggleCollapse={toggleExerciseInfoCollapse}
           />
         </ResizablePanel>
-        <ResizableHandle />
+        <ResizableHandle withHandle />
         <ResizablePanel
           defaultSize={initialCodeTestContainerDefaultSize}
           minSize={30}
@@ -197,7 +197,7 @@ export const ExercisesDetail = () => {
                 getFeedback={getFeedback}
               />
             </ResizablePanel>
-            <ResizableHandle />
+            <ResizableHandle withHandle />
             <ResizablePanel
               ref={testPanelRef}
               defaultSize={initialTestDefaultSize}
@@ -214,7 +214,7 @@ export const ExercisesDetail = () => {
             </ResizablePanel>
           </ResizablePanelGroup>
         </ResizablePanel>
-        <ResizableHandle />
+        <ResizableHandle withHandle />
         <ResizablePanel
           ref={chatbotPanelRef}
           defaultSize={initialChatbotDefaultSize}
