@@ -26,25 +26,25 @@ export const ExerciseInfo = ({
 }: IExerciseInfoProps) => {
   const TABS: ITab[] = [
     {
-      label: "Description",
+      label: "Mô tả",
       value: "description",
       icon: <ScrollText />,
       contentComponent: <ExerciseDescription exerciseData={exerciseData} />,
     },
     {
-      label: "Guidelines",
+      label: "Hướng dẫn",
       value: "editorial",
       icon: <BookMarked />,
       contentComponent: <div>Editorial content goes here.</div>,
     },
     {
-      label: "Solution",
+      label: "Giải pháp",
       value: "solution",
       icon: <BookOpenCheck />,
       contentComponent: <div>Solution content goes here.</div>,
     },
     {
-      label: "History",
+      label: "Lịch sử",
       value: "history",
       icon: <FileClock />,
       contentComponent: <div>History content goes here.</div>,

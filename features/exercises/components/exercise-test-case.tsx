@@ -10,14 +10,7 @@ import {
   ChevronRight,
   Terminal,
 } from "lucide-react";
-import type { IExercise, ITab } from "../utils/types";
-
-export interface ITestCase {
-  id: string;
-  input: string;
-  output: string;
-  isPublic: boolean;
-}
+import type { IExercise, ITab, ITestCase } from "../utils/types";
 
 export interface IExerciseTestCaseProps {
   exerciseData: IExercise;
@@ -126,7 +119,8 @@ export const ExerciseTestCase = ({
 };
 
 const TestCasesContent = ({ testCases }: { testCases: ITestCase[] }) => {
-  if (testCases.length === 0) {
+  const publicTestCases = testCases.filter((testCase) => testCase.isPublic);
+  if (publicTestCases.length === 0) {
     return (
       <div className="py-8 text-muted-foreground text-sm text-center">
         <p>No test cases available</p>
@@ -138,9 +132,9 @@ const TestCasesContent = ({ testCases }: { testCases: ITestCase[] }) => {
     <Tabs defaultValue="0" className="w-full">
       <TabsList
         className="grid w-full"
-        style={{ gridTemplateColumns: `repeat(${testCases.length}, 1fr)` }}
+        style={{ gridTemplateColumns: `repeat(${publicTestCases.length}, 1fr)` }}
       >
-        {testCases.map((testCase, index) => (
+        {publicTestCases.map((testCase, index) => (
           <TabsTrigger
             key={testCase.id}
             value={index.toString()}
@@ -151,10 +145,10 @@ const TestCasesContent = ({ testCases }: { testCases: ITestCase[] }) => {
         ))}
       </TabsList>
 
-      {testCases.map((testCase, index) => (
+      {publicTestCases.map((testCase, index) => (
         <TabsContent key={testCase.id} value={index.toString()}>
           <TestCaseDetail testCase={testCase} />
-        </TabsContent>
+        </TabsContent>  
       ))}
     </Tabs>
   );

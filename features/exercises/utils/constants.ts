@@ -6,6 +6,10 @@ export enum EXERCISE_LEVEL {
   HARD = "Khó",
 }
 
+export enum AI_FEEDBACK_MODE {
+  FULL_CODE = 0,
+  STEP_CODE,
+}
 
 export const CODE_EDITOR_LANGUAGES: ICodeEditorLanguage[] = [
   { value: "cpp", label: "C++", extension: "cpp" },
@@ -71,387 +75,115 @@ fn main() {
 
 export const SAMPLE_EXERCISE: IExercise[] = [
   {
-    id: "two-sum-001",
-    name: "Two Sum",
-    statement: `
-## Problem Statement
+    id: "hoc-lai-tin-hoc-co-so-2",
+    name: "HỌC LẠI",
+    statement: `Môn **Tin học cơ sở 2** của PTIT được biết đến là môn có tỉ lệ sinh viên trượt môn rất cao. Để chuẩn bị tinh thần cho điều đó, các bạn sinh viên muốn tính học phí học lại cho môn học này.
 
-Given an array of integers \`nums\` and an integer \`target\`, return indices of the two numbers such that they add up to target.
+Trong trường hợp sinh viên phải học lại, học phí sẽ được tính theo công thức sau:
 
-You may assume that each input would have exactly one solution, and you may not use the same element twice.
+$$\\text{Học phí học lại} = 1{,}2 \\times \\text{Học phí gốc} \\times \\text{Hệ số}$$
 
-You can return the answer in any order.
+**Hệ số** sẽ phụ thuộc vào số lượng sinh viên đăng ký học lại theo quy tắc:
 
-### Mathematical Analysis:
-We need to find indices $i$ and $j$ such that:
-$$nums[i] + nums[j] = target$$
-where $i \\neq j$ and $0 \\leq i, j < n$
+- Nếu số lượng sinh viên **ít hơn 10** thì **hệ số = 1,5**
+- Nếu số lượng sinh viên **ít hơn 20** thì **hệ số = 1,3**
+- Nếu số lượng sinh viên **ít hơn 30** thì **hệ số = 1,1**
+- Nếu số lượng sinh viên **từ 30 trở lên** thì **hệ số = 1**
 
-### Time Complexity:
-- Brute force: $O(n^2)$
-- Hash map approach: $O(n)$
-- Space complexity: $O(n)$
+Biết rằng **học phí là 800.000 VNĐ/tín chỉ**, hãy tính học phí học lại mà sinh viên phải đóng nếu biết số lượng sinh viên đăng ký học lại.
 
-### Example 1:
-\`\`\`
-Input: nums = [2,7,11,15], target = 9
-Output: [0,1]
-Explanation: Because nums[0] + nums[1] = 2 + 7 = 9, we return [0, 1].
-\`\`\`
+**Input**
 
-### Example 2:
-\`\`\`
-Input: nums = [3,2,4], target = 6
-Output: [1,2]
-\`\`\`
+Một dòng duy nhất chứa số nguyên **N** --- số lượng sinh viên đăng ký học lại **(1 ≤ N ≤ 100)**.
 
-### Example 3:
-\`\`\`
-Input: nums = [3,3], target = 6
-Output: [0,1]
-\`\`\`
+**Output**
 
-### Constraints:
-- $2 \\leq nums.length \\leq 10^4$
-- $-10^9 \\leq nums[i] \\leq 10^9$
-- $-10^9 \\leq target \\leq 10^9$
-- Only one valid answer exists.
+Trả về **học phí học lại** mà sinh viên phải đóng.
 
-### Function Signature:
-\`\`\`javascript
-function twoSum(nums, target) {
-    // Your code here
-}
-\`\`\`
+**Ví dụ**
 
-### Input Format:
-First line contains the array elements separated by spaces.
-Second line contains the target value.
+| **Input** | **Output** |
+|-----------|------------|
+| 5 | 1440000 VND |
+| 10 | 1248000 VND |`,
 
-### Output Format:
-Return the indices as an array [index1, index2] where $index_1 < index_2$.
-  `,
+    function_signature: `def hocLai(n):
+    # Your code here
+    return None`,
+
     testcases: [
       {
-        id: "tc-001",
-        input: "2 7 11 15\n9",
-        output: "[0,1]",
+        id: "test-case-1",
+        input: "6",
+        output: "1440000 VND",
         isPublic: true,
       },
       {
-        id: "tc-002",
-        input: "3 2 4\n6",
-        output: "[1,2]",
+        id: "test-case-2",
+        input: "3",
+        output: "1440000 VND",
         isPublic: true,
       },
       {
-        id: "tc-003",
-        input: "3 3\n6",
-        output: "[0,1]",
+        id: "test-case-3",
+        input: "16",
+        output: "1248000 VND",
         isPublic: true,
       },
       {
-        id: "tc-004",
-        input: "1 5 3 7 9 2\n8",
-        output: "[0,3]",
-        isPublic: false,
+        id: "test-case-4",
+        input: "100",
+        output: "960000 VND",
+        isPublic: true,
+      },
+    ],
+    example_code: `def hocLai(n):
+    if n < 10:
+        he_so = 1.5
+    elif n < 20:
+        he_so = 1.3
+    elif n < 30:
+        he_so = 1.1
+    else:
+        he_so = 1
+    hoc_phi = 1.2 * 800000 * he_so
+    return f"{int(hoc_phi)} VND"`,
+    steps: [
+      {
+        title: "Nhập đầu vào",
+        description:
+          "Bạn cần nhận đầu vào là một số nguyên n thể hiện số lượng sinh viên đăng ký học lại.",
+        code: "n = int(input())",
       },
       {
-        id: "tc-005",
-        input: "-1 -2 -3 -4 -5\n-8",
-        output: "[2,4]",
-        isPublic: false,
+        title: "Xác định hệ số học lại",
+        description: `Kiểm tra số lượng sinh viên n để xác định hệ số học lại theo quy tắc đã cho:
+- Nếu n < 10, hệ số = 1.5
+- Nếu n < 20, hệ số = 1.3
+- Nếu n < 30, hệ số = 1.1
+- Nếu n >= 30, hệ số = 1`,
+        code: `if n < 10:
+    he_so = 1.5
+elif n < 20:
+    he_so = 1.3
+elif n < 30:
+    he_so = 1.1
+else:
+    he_so = 1`,
       },
       {
-        id: "tc-006",
-        input: "0 4 3 0\n0",
-        output: "[0,3]",
-        isPublic: false,
+        title: "Tính học phí",
+        description:
+          "Tính học phí dựa vào hệ số và mức học phí mỗi tín chỉ (800.000 VNĐ). Công thức: học phí = 1.2 * 800000 * hệ số.",
+        code: "hoc_phi = 1.2 * 800000 * he_so",
+      },
+      {
+        title: "Trả về kết quả",
+        description:
+          "Sau khi tính toán, trả về kết quả học phí theo định dạng yêu cầu.",
+        code: 'return f"{int(hoc_phi)} VND"',
       },
     ],
     level: EXERCISE_LEVEL.EASY,
-  },
-  {
-    id: "valid-parentheses-002",
-    name: "Valid Parentheses",
-    statement: `
-## Problem Statement
-
-Given a string \`s\` containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
-
-An input string is valid if:
-1. Open brackets must be closed by the same type of brackets.
-2. Open brackets must be closed in the correct order.
-3. Every close bracket has a corresponding open bracket of the same type.
-
-### Mathematical Representation:
-Let $\\Sigma = \\{(, ), [, ], \\{, \\}\\}$ be our alphabet of brackets.
-
-For a string $s \\in \\Sigma^*$, we define a **valid parentheses sequence** as one that satisfies:
-- **Balance condition**: For any prefix $s[1...i]$, the number of closing brackets never exceeds opening brackets
-- **Matching condition**: Each opening bracket has a corresponding closing bracket of the same type
-- **Order condition**: Brackets are properly nested (no crossing)
-
-### Stack-based Solution:
-The algorithm maintains a stack $S$ where:
-- Push opening brackets: $\\{(, [, \\{\\}$
-- Pop when encountering matching closing brackets: $\\{), ], \\}\\}$
-
-**Time Complexity**: $O(n)$ where $n = |s|$
-**Space Complexity**: $O(n)$ in worst case
-
-### Mathematical Proof:
-A string is valid if and only if:
-$$\\forall i \\in [1, n]: \\sum_{j=1}^{i} f(s[j]) \\geq 0$$
-and
-$$\\sum_{j=1}^{n} f(s[j]) = 0$$
-
-where $f(c) = \\begin{cases} 
-+1 & \\text{if } c \\text{ is opening bracket} \\\\
--1 & \\text{if } c \\text{ is closing bracket}
-\\end{cases}$
-
-### Example 1:
-\`\`\`
-Input: s = "()"
-Output: true
-Explanation: Balance: [1, 0] ✓, Final sum: 0 ✓
-\`\`\`
-
-### Example 2:
-\`\`\`
-Input: s = "()[]{}"
-Output: true
-Explanation: Balance: [1, 0, 1, 0, 1, 0] ✓, Final sum: 0 ✓
-\`\`\`
-
-### Example 3:
-\`\`\`
-Input: s = "(]"
-Output: false
-Explanation: Wrong bracket type matching
-\`\`\`
-
-### Constraints:
-- $1 \\leq |s| \\leq 10^4$
-- $s \\subseteq \\{(, ), [, ], \\{, \\}\\}$
-
-### Function Signature:
-\`\`\`javascript
-function isValid(s) {
-    // Your code here
-}
-\`\`\`
-
-### Input Format:
-A single line containing the string of brackets.
-
-### Output Format:
-Return "true" if valid, "false" otherwise.
-  `,
-    testcases: [
-      {
-        id: "tc-001",
-        input: "()",
-        output: "true",
-        isPublic: true,
-      },
-      {
-        id: "tc-002",
-        input: "()[]{}",
-        output: "true",
-        isPublic: true,
-      },
-      {
-        id: "tc-003",
-        input: "(]",
-        output: "false",
-        isPublic: true,
-      },
-      {
-        id: "tc-004",
-        input: "([)]",
-        output: "false",
-        isPublic: false,
-      },
-      {
-        id: "tc-005",
-        input: "{[]}",
-        output: "true",
-        isPublic: false,
-      },
-    ],
-    level: EXERCISE_LEVEL.MEDIUM,
-  },
-  {
-    id: "fibonacci-sequence-003",
-    name: "Fibonacci Sequence",
-    statement: `
-## Problem Statement
-
-The Fibonacci sequence is defined as:
-$$F(n) = \\begin{cases} 
-0 & \\text{if } n = 0 \\\\
-1 & \\text{if } n = 1 \\\\
-F(n-1) + F(n-2) & \\text{if } n > 1
-\\end{cases}$$
-
-Given a number $n$, return the $n$-th Fibonacci number.
-
-### Mathematical Properties:
-1. **Binet's Formula**: $F(n) = \\frac{\\phi^n - \\psi^n}{\\sqrt{5}}$
-   where $\\phi = \\frac{1 + \\sqrt{5}}{2}$ (golden ratio) and $\\psi = \\frac{1 - \\sqrt{5}}{2}$
-
-2. **Matrix Form**: $\\begin{pmatrix} F(n+1) \\\\ F(n) \\end{pmatrix} = \\begin{pmatrix} 1 & 1 \\\\ 1 & 0 \\end{pmatrix}^n \\begin{pmatrix} 1 \\\\ 0 \\end{pmatrix}$
-
-3. **Asymptotic Growth**: $F(n) \\sim \\frac{\\phi^n}{\\sqrt{5}}$ as $n \\to \\infty$
-
-### Complexity Analysis:
-- **Naive Recursion**: $O(2^n)$ time, $O(n)$ space
-- **Dynamic Programming**: $O(n)$ time, $O(n)$ space
-- **Iterative**: $O(n)$ time, $O(1)$ space
-- **Matrix Exponentiation**: $O(\\log n)$ time, $O(1)$ space
-
-### Example 1:
-\`\`\`
-Input: n = 5
-Output: 5
-Explanation: F(5) = F(4) + F(3) = 3 + 2 = 5
-\`\`\`
-
-### Example 2:
-\`\`\`
-Input: n = 10
-Output: 55
-Explanation: The sequence is: 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55
-\`\`\`
-
-### Constraints:
-- $0 \\leq n \\leq 30$
-- Answer fits in a 32-bit integer
-
-### Function Signature:
-\`\`\`javascript
-function fibonacci(n) {
-    // Your code here
-}
-\`\`\`
-
-### Input Format:
-A single integer $n$.
-
-### Output Format:
-Return the $n$-th Fibonacci number as an integer.
-  `,
-    testcases: [
-      {
-        id: "tc-001",
-        input: "5",
-        output: "5",
-        isPublic: true,
-      },
-      {
-        id: "tc-002",
-        input: "10",
-        output: "55",
-        isPublic: true,
-      },
-      {
-        id: "tc-003",
-        input: "0",
-        output: "0",
-        isPublic: true,
-      },
-      {
-        id: "tc-004",
-        input: "1",
-        output: "1",
-        isPublic: false,
-      },
-      {
-        id: "tc-005",
-        input: "15",
-        output: "610",
-        isPublic: false,
-      },
-    ],
-    level: EXERCISE_LEVEL.EASY,
-  },
-  {
-    id: "matrix-multiplication-004",
-    name: "Matrix Multiplication",
-    statement: `
-## Problem Statement
-
-Given two matrices $A$ and $B$, compute their product $C = A \\times B$.
-
-### Mathematical Definition:
-For matrices $A \\in \\mathbb{R}^{m \\times n}$ and $B \\in \\mathbb{R}^{n \\times p}$:
-$$C_{ij} = \\sum_{k=1}^{n} A_{ik} \\cdot B_{kj}$$
-
-The resulting matrix $C \\in \\mathbb{R}^{m \\times p}$.
-
-### Properties:
-1. **Associativity**: $(AB)C = A(BC)$
-2. **Distributivity**: $A(B + C) = AB + AC$
-3. **Identity**: $AI = IA = A$ where $I$ is the identity matrix
-4. **Non-commutativity**: Generally $AB \\neq BA$
-
-### Algorithm Complexity:
-- **Standard Algorithm**: $O(mnp)$ time, $O(mp)$ space
-- **Strassen's Algorithm**: $O(n^{\\log_2 7}) \\approx O(n^{2.807})$
-- **Coppersmith-Winograd**: $O(n^{2.376})$ (theoretical)
-
-### Example 1:
-\`\`\`
-Input: 
-A = [[1, 2], [3, 4]]
-B = [[5, 6], [7, 8]]
-Output: [[19, 22], [43, 50]]
-Explanation: 
-C[0][0] = 1×5 + 2×7 = 19
-C[0][1] = 1×6 + 2×8 = 22
-C[1][0] = 3×5 + 4×7 = 43
-C[1][1] = 3×6 + 4×8 = 50
-\`\`\`
-
-### Block Matrix Multiplication:
-For large matrices, we can use block decomposition:
-$$\\begin{pmatrix} A_{11} & A_{12} \\\\ A_{21} & A_{22} \\end{pmatrix} \\begin{pmatrix} B_{11} & B_{12} \\\\ B_{21} & B_{22} \\end{pmatrix} = \\begin{pmatrix} A_{11}B_{11} + A_{12}B_{21} & A_{11}B_{12} + A_{12}B_{22} \\\\ A_{21}B_{11} + A_{22}B_{21} & A_{21}B_{12} + A_{22}B_{22} \\end{pmatrix}$$
-
-### Constraints:
-- $1 \\leq m, n, p \\leq 100$
-- $-1000 \\leq A_{ij}, B_{ij} \\leq 1000$
-
-### Function Signature:
-\`\`\`javascript
-function matrixMultiply(A, B) {
-    // Your code here
-}
-\`\`\`
-
-### Input Format:
-First line: dimensions $m$, $n$, $p$
-Next $m$ lines: matrix $A$ 
-Next $n$ lines: matrix $B$
-
-### Output Format:
-Return the resulting matrix $C$ as a 2D array.
-  `,
-    testcases: [
-      {
-        id: "tc-001",
-        input: "2 2 2\n1 2\n3 4\n5 6\n7 8",
-        output: "[[19,22],[43,50]]",
-        isPublic: true,
-      },
-      {
-        id: "tc-002",
-        input: "2 3 2\n1 2 3\n4 5 6\n7 8\n9 10\n11 12",
-        output: "[[58,64],[139,154]]",
-        isPublic: true,
-      },
-    ],
-    level: EXERCISE_LEVEL.MEDIUM,
   },
 ];

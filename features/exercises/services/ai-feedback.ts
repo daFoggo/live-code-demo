@@ -1,4 +1,5 @@
 import { BACK_END_API } from "@/lib/constants";
+import { AI_FEEDBACK_MODE } from "../utils/constants";
 
 const FEEDBACK_ENDPOINTS = {
   FEEDBACK: `${BACK_END_API}/workflows/run`,
@@ -6,9 +7,11 @@ const FEEDBACK_ENDPOINTS = {
 
 export interface IAIFeedbackParams {
   inputs: {
+    mode: AI_FEEDBACK_MODE.FULL_CODE | AI_FEEDBACK_MODE.STEP_CODE;
     purpose: string;
     example_code: string;
     user_code: string;
+    step_description?: string;  // STEP_CODE mode only
   };
   response_mode: string;
   user: string;
@@ -40,7 +43,7 @@ export const aiFeedbackServices = {
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer app-epKXRbALse3pFAAHr3SfrOie"
-      },
+      },  
       body: JSON.stringify(params),
     });
 

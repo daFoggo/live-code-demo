@@ -1,7 +1,6 @@
 "use client";
-
 import "katex/dist/katex.min.css";
-import { ComponentType, JSX, ReactNode } from "react";
+import type { ComponentType, JSX, ReactNode } from "react";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { tomorrow } from "react-syntax-highlighter/dist/esm/styles/prism";
@@ -42,6 +41,20 @@ interface MarkdownKatexRendererProps {
   components?: Components;
 }
 
+// Suppress KaTeX warnings for Vietnamese characters
+const originalConsoleWarn = console.warn;
+
+console.warn = (...args: unknown[]) => {
+  const message = args[0];
+  if (
+    typeof message === "string" &&
+    message.includes("No character metrics for")
+  ) {
+    return; // Suppress these specific warnings
+  }
+  originalConsoleWarn.apply(console, args);
+};
+
 export function MarkdownKatexRenderer({
   content,
   className = "",
@@ -64,7 +77,7 @@ export function MarkdownKatexRenderer({
         <code
           className={`${
             className || ""
-          } bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded-lg text-sm`}
+          } bg-muted px-1 py-0.5 rounded-lg text-sm`}
           {...props}
         >
           {children}
@@ -72,62 +85,54 @@ export function MarkdownKatexRenderer({
       );
     },
     h1: ({ children }: GenericProps) => (
-      <h1 className="mb-4 font-bold text-gray-900 dark:text-gray-100 text-3xl">
-        {children}
-      </h1>
+      <h1 className="mb-4 font-bold text-foreground text-3xl">{children}</h1>
     ),
     h2: ({ children }: GenericProps) => (
-      <h2 className="mb-3 font-semibold text-gray-900 dark:text-gray-100 text-2xl">
+      <h2 className="mb-3 font-semibold text-foreground text-2xl">
         {children}
       </h2>
     ),
     h3: ({ children }: GenericProps) => (
-      <h3 className="mb-2 font-semibold text-gray-900 dark:text-gray-100 text-xl">
-        {children}
-      </h3>
+      <h3 className="mb-2 font-semibold text-foreground text-xl">{children}</h3>
     ),
     p: ({ children }: GenericProps) => (
-      <p className="mb-4 text-gray-700 dark:text-gray-300 leading-relaxed">
-        {children}
-      </p>
+      <p className="mb-4 text-foreground leading-relaxed">{children}</p>
     ),
     ul: ({ children }: GenericProps) => (
-      <ul className="mb-4 text-gray-700 dark:text-gray-300 list-disc list-inside">
-        {children}
-      </ul>
+      <ul className="mb-4 text-foreground list-disc list-inside">{children}</ul>
     ),
     ol: ({ children }: GenericProps) => (
-      <ol className="mb-4 text-gray-700 dark:text-gray-300 list-decimal list-inside">
+      <ol className="mb-4 text-foreground list-decimal list-inside">
         {children}
       </ol>
     ),
     li: ({ children }: GenericProps) => <li className="mb-1">{children}</li>,
     blockquote: ({ children }: GenericProps) => (
-      <blockquote className="mb-4 pl-4 border-blue-500 border-l-4 text-gray-600 dark:text-gray-400 italic">
+      <blockquote className="mb-4 pl-4 border-primary border-l-4 text-muted-foreground italic">
         {children}
       </blockquote>
     ),
     table: ({ children }: GenericProps) => (
       <div className="mb-4 overflow-x-auto">
-        <table className="border border-gray-300 dark:border-gray-600 min-w-full border-collapse">
+        <table className="border border-border min-w-full border-collapse">
           {children}
         </table>
       </div>
     ),
     th: ({ children }: GenericProps) => (
-      <th className="bg-gray-100 dark:bg-gray-800 px-4 py-2 border border-gray-300 dark:border-gray-600 font-semibold text-left">
+      <th className="bg-muted px-4 py-2 border border-border font-semibold text-foreground text-left">
         {children}
       </th>
     ),
     td: ({ children }: GenericProps) => (
-      <td className="px-4 py-2 border border-gray-300 dark:border-gray-600">
+      <td className="px-4 py-2 border border-border text-foreground">
         {children}
       </td>
     ),
     a: ({ children, href }: LinkProps) => (
       <a
         href={href}
-        className="text-blue-600 dark:text-blue-400 hover:underline"
+        className="text-primary hover:underline"
         target="_blank"
         rel="noopener noreferrer"
       >
@@ -140,8 +145,32 @@ export function MarkdownKatexRenderer({
   return (
     <div className={`prose prose-lg max-w-none ${className}`}>
       <ReactMarkdown
-        remarkPlugins={[remarkMath, remarkGfm]}
-        rehypePlugins={[rehypeKatex]}
+        remarkPlugins={[
+          [
+            remarkMath,
+            {
+              strict: false,
+            },
+          ],
+          [
+            remarkGfm,
+            {
+              strict: false,
+            },
+          ],
+        ]}
+        rehypePlugins={[
+          [
+            rehypeKatex,
+            {
+              strict: false,
+              trust: true,
+              throwOnError: false,
+              output: "html",
+              displayMode: false,
+            },
+          ],
+        ]}
         components={defaultComponents}
       >
         {content}

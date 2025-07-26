@@ -6,12 +6,21 @@ export interface ITestCase {
   output: string;
   isPublic: boolean;
 }
+
+export interface IStep {
+  title: string;
+  description: string;
+  code: string;
+}
 export interface IExercise {
   id: string;
   name: string;
   statement: string;
+  function_signature?: string;
   testcases: ITestCase[];
-  level: ExerciseLevel;
+  steps?: IStep[];
+  example_code?: string;
+  level?: ExerciseLevel;
 }
 
 export interface IMessage {

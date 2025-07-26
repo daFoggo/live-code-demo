@@ -178,6 +178,12 @@
     letter-spacing: var(--tracking-normal);
   }
 
+  /* Apply cursor pointer to all interactive elements */
+  button,
+  [role="button"] {
+    cursor: pointer;
+  }
+
   /* Shadcn's calendar dropdown color fix */
   .dark .rdp-caption_label {
     @apply bg-transparent text-white;
