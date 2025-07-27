@@ -372,11 +372,7 @@ export const ExerciseCodeEditor = ({
                         ? "bg-primary/60"
                         : "bg-muted"
                     )}
-                  >
-                    {completedSteps.has(index) && (
-                      <CheckCircle className="-top-1 left-1/2 absolute bg-background border border-border rounded-full size-4 text-emerald-600 dark:text-emerald-400 -translate-x-1/2 transform" />
-                    )}
-                  </div>
+                  ></div>
                 ))}
               </div>
               {exerciseData.steps[currentStep]?.description && (
