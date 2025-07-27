@@ -141,10 +141,12 @@ export const ExerciseCodeEditor = ({
       try {
         setIsGettingFeedback(true);
         let exampleCode = "";
+        let stepDescription = "";
         if (mode === AI_FEEDBACK_MODE.FULL_CODE) {
           exampleCode = exerciseData.example_code || "";
         } else if (mode === AI_FEEDBACK_MODE.STEP_CODE && exerciseData.steps) {
           exampleCode = exerciseData.steps[currentStep]?.code || "";
+          stepDescription = exerciseData.steps[currentStep]?.description || "";
         }
 
         const response = await getFeedback({
@@ -153,6 +155,8 @@ export const ExerciseCodeEditor = ({
             purpose: exerciseData.statement,
             example_code: exampleCode,
             user_code: code,
+            step_description:
+              mode === AI_FEEDBACK_MODE.STEP_CODE ? stepDescription : undefined,
           },
           response_mode: "blocking",
           user: "abc-123",
