@@ -157,10 +157,10 @@ export const ExerciseCodeEditor = ({
           response_mode: "blocking",
           user: "abc-123",
         });
+
         if (response.stepStatus === STEP_STATUS.PASSED) {
           setCompletedSteps((prev) => new Set([...prev, currentStep]));
           toast.success(`Bước ${currentStep + 1} đã hoàn thành!`);
-
           if (mode === AI_FEEDBACK_MODE.STEP_CODE && exerciseData?.steps) {
             const totalSteps = exerciseData.steps.length;
             if (currentStep < totalSteps - 1) {
@@ -193,6 +193,7 @@ export const ExerciseCodeEditor = ({
       clearTimeout(debounceRef.current);
       debounceRef.current = null;
     }
+
     if (!mountedRef.current) {
       mountedRef.current = true;
       previousCodeRef.current = code;
@@ -274,6 +275,7 @@ export const ExerciseCodeEditor = ({
               </SelectContent>
             </Select>
           </div>
+
           {!isCollapsed && (
             <div className="flex flex-shrink-0 items-center gap-1.5 bg-muted/50 px-4 py-2 rounded-md h-full text-xs">
               <Box className="flex-shrink-0 size-4 text-muted-foreground" />
@@ -286,6 +288,7 @@ export const ExerciseCodeEditor = ({
               <Grid2x2 className="flex-shrink-0 size-4 text-muted-foreground" />
             </div>
           )}
+
           {!isCollapsed &&
             mode === AI_FEEDBACK_MODE.STEP_CODE &&
             exerciseData?.steps && (
@@ -304,11 +307,11 @@ export const ExerciseCodeEditor = ({
                     className={cn(
                       "flex flex-shrink-0 items-center gap-1 px-1.5 py-0.5 text-xs",
                       completedSteps.has(currentStep) &&
-                        "bg-green-100 border-green-300"
+                        "bg-emerald-50 border-emerald-200 text-emerald-700 dark:bg-emerald-950 dark:border-emerald-800 dark:text-emerald-300"
                     )}
                   >
                     {completedSteps.has(currentStep) && (
-                      <CheckCircle className="size-3 text-green-600" />
+                      <CheckCircle className="size-3 text-emerald-600 dark:text-emerald-400" />
                     )}
                     {currentStep + 1}/{totalSteps}
                   </Badge>
@@ -327,7 +330,9 @@ export const ExerciseCodeEditor = ({
                 </Button>
               </div>
             )}
+
           <div className="flex-1 min-w-0"></div>
+
           <div className="flex flex-shrink-0 items-center gap-1">
             {toggleFullscreen && (
               <Button variant="ghost" size="icon" onClick={toggleFullscreen}>
@@ -347,6 +352,7 @@ export const ExerciseCodeEditor = ({
             )}
           </div>
         </div>
+
         {!isCollapsed &&
           mode === AI_FEEDBACK_MODE.STEP_CODE &&
           exerciseData?.steps && (
@@ -361,14 +367,14 @@ export const ExerciseCodeEditor = ({
                       index === currentStep
                         ? "bg-primary"
                         : completedSteps.has(index)
-                        ? "bg-green-500"
+                        ? "bg-emerald-500 dark:bg-emerald-600"
                         : index < currentStep
                         ? "bg-primary/60"
                         : "bg-muted"
                     )}
                   >
                     {completedSteps.has(index) && (
-                      <CheckCircle className="-top-1 left-1/2 absolute bg-white rounded-full size-4 text-green-600 -translate-x-1/2 transform" />
+                      <CheckCircle className="-top-1 left-1/2 absolute bg-background border border-border rounded-full size-4 text-emerald-600 dark:text-emerald-400 -translate-x-1/2 transform" />
                     )}
                   </div>
                 ))}
@@ -383,6 +389,7 @@ export const ExerciseCodeEditor = ({
             </div>
           )}
       </CardHeader>
+
       {!isCollapsed && (
         <>
           <CardContent className="flex-1 p-0 min-h-0 overflow-hidden">
@@ -394,6 +401,7 @@ export const ExerciseCodeEditor = ({
               />
             </div>
           </CardContent>
+
           <CardFooter className="flex justify-end gap-3 align-bottom">
             <AsyncButton
               onClick={handleRunCode}
