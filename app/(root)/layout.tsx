@@ -1,3 +1,5 @@
+"use client";
+
 import { PageLoader } from "@/components/common/page-loader";
 import { RootFooter } from "@/components/layout/root-footer";
 import RootHeader from "@/components/layout/root-header";

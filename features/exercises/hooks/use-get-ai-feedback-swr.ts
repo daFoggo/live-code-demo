@@ -17,6 +17,7 @@ const transformAIFeedbackToMessage = (
 ): IMessage => {
   return {
     feedback: response.data.outputs.message,
+    stepStatus: response.data.outputs.status,
     metadata: {
       messageId: response.data.id,
       timestamp: new Date(response.data.finished_at * 1000).toISOString(),

@@ -35,6 +35,7 @@ import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
 import {
   Box,
+  CheckCircle,
   ChevronLeft,
   ChevronRight,
   Grid2x2,
@@ -51,6 +52,7 @@ import {
   AI_FEEDBACK_MODE,
   CODE_EDITOR_LANGUAGE_TEMPLATES,
   CODE_EDITOR_LANGUAGES,
+  STEP_STATUS,
 } from "../utils/constants";
 import type { IExercise, IMessage } from "../utils/types";
 
@@ -82,6 +84,7 @@ export const ExerciseCodeEditor = ({
   );
   const [currentStep, setCurrentStep] = useState(0);
   const [isGettingFeedback, setIsGettingFeedback] = useState(false);
+  const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set());
   const debounceRef = useRef<NodeJS.Timeout | null>(null);
   const previousCodeRef = useRef<string>(code);
   const mountedRef = useRef<boolean>(false);
@@ -94,7 +97,6 @@ export const ExerciseCodeEditor = ({
         language as keyof typeof CODE_EDITOR_LANGUAGE_TEMPLATES
       ] ||
       "";
-
     setCode(newCode);
     previousCodeRef.current = newCode;
   };
@@ -109,7 +111,6 @@ export const ExerciseCodeEditor = ({
       ? AI_FEEDBACK_MODE.STEP_CODE
       : AI_FEEDBACK_MODE.FULL_CODE;
     setMode(newMode);
-
     if (checked) {
       setCurrentStep(0);
     }
@@ -146,7 +147,7 @@ export const ExerciseCodeEditor = ({
           exampleCode = exerciseData.steps[currentStep]?.code || "";
         }
 
-        await getFeedback({
+        const response = await getFeedback({
           inputs: {
             mode: mode,
             purpose: exerciseData.statement,
@@ -156,8 +157,27 @@ export const ExerciseCodeEditor = ({
           response_mode: "blocking",
           user: "abc-123",
         });
+        if (response.stepStatus === STEP_STATUS.PASSED) {
+          setCompletedSteps((prev) => new Set([...prev, currentStep]));
+          toast.success(`Bước ${currentStep + 1} đã hoàn thành!`);
+
+          if (mode === AI_FEEDBACK_MODE.STEP_CODE && exerciseData?.steps) {
+            const totalSteps = exerciseData.steps.length;
+            if (currentStep < totalSteps - 1) {
+              setTimeout(() => {
+                setCurrentStep(currentStep + 1);
+                toast.info(`Chuyển sang bước ${currentStep + 2}`);
+              }, 1500);
+            } else {
+              toast.success("Tất cả các bước đã hoàn thành!");
+            }
+          }
+        } else if (response.stepStatus === STEP_STATUS.NOT_PASSED) {
+          toast.info("Hãy tiếp tục cải thiện code của bạn!");
+        }
       } catch (error) {
         console.error("Lỗi khi gọi AI feedback:", error);
+        toast.error("Có lỗi xảy ra khi đánh giá code");
       } finally {
         setIsGettingFeedback(false);
       }
@@ -173,7 +193,6 @@ export const ExerciseCodeEditor = ({
       clearTimeout(debounceRef.current);
       debounceRef.current = null;
     }
-
     if (!mountedRef.current) {
       mountedRef.current = true;
       previousCodeRef.current = code;
@@ -193,9 +212,7 @@ export const ExerciseCodeEditor = ({
     const isCodeNotEmpty = code.trim() !== "";
 
     if (isCodeDifferentFromTemplate && isCodeNotEmpty) {
-      console.log("Code changed, setting 30s timer for AI feedback...");
       debounceRef.current = setTimeout(() => {
-        console.log("Calling AI feedback after 30s delay");
         callAIFeedback();
       }, 30000);
     }
@@ -257,7 +274,6 @@ export const ExerciseCodeEditor = ({
               </SelectContent>
             </Select>
           </div>
-
           {!isCollapsed && (
             <div className="flex flex-shrink-0 items-center gap-1.5 bg-muted/50 px-4 py-2 rounded-md h-full text-xs">
               <Box className="flex-shrink-0 size-4 text-muted-foreground" />
@@ -270,7 +286,6 @@ export const ExerciseCodeEditor = ({
               <Grid2x2 className="flex-shrink-0 size-4 text-muted-foreground" />
             </div>
           )}
-
           {!isCollapsed &&
             mode === AI_FEEDBACK_MODE.STEP_CODE &&
             exerciseData?.steps && (
@@ -283,12 +298,18 @@ export const ExerciseCodeEditor = ({
                 >
                   <ChevronLeft className="size-4" />
                 </Button>
-
                 <div className="flex items-center gap-1 min-w-0">
                   <Badge
                     variant="outline"
-                    className="flex-shrink-0 px-1.5 py-0.5 text-xs"
+                    className={cn(
+                      "flex flex-shrink-0 items-center gap-1 px-1.5 py-0.5 text-xs",
+                      completedSteps.has(currentStep) &&
+                        "bg-green-100 border-green-300"
+                    )}
                   >
+                    {completedSteps.has(currentStep) && (
+                      <CheckCircle className="size-3 text-green-600" />
+                    )}
                     {currentStep + 1}/{totalSteps}
                   </Badge>
                   <span className="hidden sm:inline max-w-[100px] text-muted-foreground text-xs truncate">
@@ -296,7 +317,6 @@ export const ExerciseCodeEditor = ({
                       `Bước ${currentStep + 1}`}
                   </span>
                 </div>
-
                 <Button
                   variant="ghost"
                   onClick={() => handleStepChange(currentStep + 1)}
@@ -307,9 +327,7 @@ export const ExerciseCodeEditor = ({
                 </Button>
               </div>
             )}
-
           <div className="flex-1 min-w-0"></div>
-
           <div className="flex flex-shrink-0 items-center gap-1">
             {toggleFullscreen && (
               <Button variant="ghost" size="icon" onClick={toggleFullscreen}>
@@ -329,28 +347,32 @@ export const ExerciseCodeEditor = ({
             )}
           </div>
         </div>
-
         {!isCollapsed &&
           mode === AI_FEEDBACK_MODE.STEP_CODE &&
           exerciseData?.steps && (
             <div className="space-y-2 mt-3">
               <div className="flex gap-0.5 overflow-x-auto scrollbar-hide">
                 {exerciseData.steps.map((_, index) => (
-                  <button
+                  <div
                     key={index}
                     onClick={() => handleStepChange(index)}
                     className={cn(
-                      "flex-1 rounded-full h-2 transition-colors",
+                      "relative flex-1 hover:opacity-80 rounded-full h-2 transition-colors cursor-pointer",
                       index === currentStep
                         ? "bg-primary"
+                        : completedSteps.has(index)
+                        ? "bg-green-500"
                         : index < currentStep
                         ? "bg-primary/60"
                         : "bg-muted"
                     )}
-                  />
+                  >
+                    {completedSteps.has(index) && (
+                      <CheckCircle className="-top-1 left-1/2 absolute bg-white rounded-full size-4 text-green-600 -translate-x-1/2 transform" />
+                    )}
+                  </div>
                 ))}
               </div>
-
               {exerciseData.steps[currentStep]?.description && (
                 <div className="bg-muted/50 mt-2 p-1 rounded max-h-20 overflow-y-auto text-xs scrollbar-thin">
                   <MarkdownKatexRenderer
@@ -361,7 +383,6 @@ export const ExerciseCodeEditor = ({
             </div>
           )}
       </CardHeader>
-
       {!isCollapsed && (
         <>
           <CardContent className="flex-1 p-0 min-h-0 overflow-hidden">
@@ -373,7 +394,6 @@ export const ExerciseCodeEditor = ({
               />
             </div>
           </CardContent>
-
           <CardFooter className="flex justify-end gap-3 align-bottom">
             <AsyncButton
               onClick={handleRunCode}
@@ -383,7 +403,6 @@ export const ExerciseCodeEditor = ({
             >
               Chạy
             </AsyncButton>
-
             <AsyncButton
               onClick={handleManualFeedback}
               icon={<Zap />}
@@ -393,7 +412,6 @@ export const ExerciseCodeEditor = ({
             >
               Đánh giá
             </AsyncButton>
-
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <AsyncButton icon={<SquareChevronUp />} disabled={!code.trim()}>

@@ -1,4 +1,4 @@
-import { ExerciseLevel } from "./constants";
+import { ExerciseLevel, STEP_STATUS } from "./constants";
 
 export interface ITestCase {
   id: string;
@@ -25,6 +25,7 @@ export interface IExercise {
 
 export interface IMessage {
   feedback: string;
+  stepStatus?: STEP_STATUS.PASSED | STEP_STATUS.NOT_PASSED;
   metadata: {
     messageId: string;
     timestamp: string;

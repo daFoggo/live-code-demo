@@ -1,5 +1,5 @@
 import { BACK_END_API } from "@/lib/constants";
-import { AI_FEEDBACK_MODE } from "../utils/constants";
+import { AI_FEEDBACK_MODE, STEP_STATUS } from "../utils/constants";
 
 const FEEDBACK_ENDPOINTS = {
   FEEDBACK: `${BACK_END_API}/workflows/run`,
@@ -11,7 +11,7 @@ export interface IAIFeedbackParams {
     purpose: string;
     example_code: string;
     user_code: string;
-    step_description?: string;  // STEP_CODE mode only
+    step_description?: string; // STEP_CODE mode only
   };
   response_mode: string;
   user: string;
@@ -26,6 +26,7 @@ export interface IAIFeedbackResponse {
     status: "succeeded" | "failed" | "running" | "pending";
     outputs: {
       message: string;
+      status?: STEP_STATUS.PASSED | STEP_STATUS.NOT_PASSED;
     };
     error: string;
     elapsed_time: number;
@@ -42,8 +43,8 @@ export const aiFeedbackServices = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": "Bearer app-epKXRbALse3pFAAHr3SfrOie"
-      },  
+        Authorization: "Bearer app-epKXRbALse3pFAAHr3SfrOie",
+      },
       body: JSON.stringify(params),
     });
 

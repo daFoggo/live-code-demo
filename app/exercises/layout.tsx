@@ -1,3 +1,5 @@
+"use client";
+
 import ChatbotWidget from "@/components/common/chatbot-widget";
 import { PageLoader } from "@/components/common/page-loader";
 import AppHeader from "@/components/layout/app-header";

@@ -11,6 +11,11 @@ export enum AI_FEEDBACK_MODE {
   STEP_CODE,
 }
 
+export enum STEP_STATUS {
+  PASSED = 1,
+  NOT_PASSED = 0,
+}
+
 export const CODE_EDITOR_LANGUAGES: ICodeEditorLanguage[] = [
   { value: "cpp", label: "C++", extension: "cpp" },
   { value: "python", label: "Python", extension: "py" },
@@ -149,12 +154,6 @@ Trả về **học phí học lại** mà sinh viên phải đóng.
     hoc_phi = 1.2 * 800000 * he_so
     return f"{int(hoc_phi)} VND"`,
     steps: [
-      {
-        title: "Nhập đầu vào",
-        description:
-          "Bạn cần nhận đầu vào là một số nguyên n thể hiện số lượng sinh viên đăng ký học lại.",
-        code: "n = int(input())",
-      },
       {
         title: "Xác định hệ số học lại",
         description: `Kiểm tra số lượng sinh viên n để xác định hệ số học lại theo quy tắc đã cho:

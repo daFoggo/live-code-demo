@@ -59,7 +59,7 @@ export const ExerciseChatPanel = ({
         <div className="flex items-center gap-2">
           {!isCollapsed && messages.length > 0 && (
             <Tooltip>
-              <TooltipTrigger>
+              <TooltipTrigger asChild>
                 <Button variant="ghost" size="icon" onClick={clearMessages}>
                   <Trash2 className="size-4" />
                 </Button>
