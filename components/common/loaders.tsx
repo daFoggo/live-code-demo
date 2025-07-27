@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 export interface LoaderProps {
   variant?:
@@ -13,10 +13,10 @@ export interface LoaderProps {
     | "terminal"
     | "text-blink"
     | "text-shimmer"
-    | "loading-dots"
-  size?: "sm" | "md" | "lg"
-  text?: string
-  className?: string
+    | "loading-dots";
+  size?: "sm" | "md" | "lg";
+  text?: string;
+  className?: string;
 }
 
 export function CircularLoader({
@@ -24,30 +24,41 @@ export function CircularLoader({
   size = "md",
   text,
 }: {
-  className?: string
-  size?: "sm" | "md" | "lg"
-  text?: string
+  className?: string;
+  size?: "sm" | "md" | "lg";
+  text?: string;
 }) {
   const sizeClasses = {
     sm: "size-4",
     md: "size-5",
     lg: "size-6",
-  }
+  };
 
   const textSizes = {
     sm: "text-xs",
     md: "text-sm",
     lg: "text-base",
-  }
+  };
 
   return (
     <div className={cn("flex flex-col items-center gap-2", className)}>
-      <div className={cn("border-2 border-primary border-t-transparent rounded-full animate-spin", sizeClasses[size])}>
+      <div
+        className={cn(
+          "border-2 border-primary border-t-transparent rounded-full animate-spin",
+          sizeClasses[size]
+        )}
+      >
         <span className="sr-only">Loading</span>
       </div>
-      {text && <span className={cn("font-medium text-muted-foreground", textSizes[size])}>{text}</span>}
+      {text && (
+        <span
+          className={cn("font-medium text-muted-foreground", textSizes[size])}
+        >
+          {text}
+        </span>
+      )}
     </div>
-  )
+  );
 }
 
 export function ClassicLoader({
@@ -55,27 +66,27 @@ export function ClassicLoader({
   size = "md",
   text,
 }: {
-  className?: string
-  size?: "sm" | "md" | "lg"
-  text?: string
+  className?: string;
+  size?: "sm" | "md" | "lg";
+  text?: string;
 }) {
   const sizeClasses = {
     sm: "size-4",
     md: "size-5",
     lg: "size-6",
-  }
+  };
 
   const textSizes = {
     sm: "text-xs",
     md: "text-sm",
     lg: "text-base",
-  }
+  };
 
   const barSizes = {
     sm: { height: "6px", width: "1.5px" },
     md: { height: "8px", width: "2px" },
     lg: { height: "10px", width: "2.5px" },
-  }
+  };
 
   return (
     <div className={cn("flex flex-col items-center gap-2", className)}>
@@ -88,7 +99,12 @@ export function ClassicLoader({
               style={{
                 top: "0",
                 left: "50%",
-                marginLeft: size === "sm" ? "-0.75px" : size === "lg" ? "-1.25px" : "-1px",
+                marginLeft:
+                  size === "sm"
+                    ? "-0.75px"
+                    : size === "lg"
+                    ? "-1.25px"
+                    : "-1px",
                 transformOrigin: `${
                   size === "sm" ? "0.75px" : size === "lg" ? "1.25px" : "1px"
                 } ${size === "sm" ? "10px" : size === "lg" ? "14px" : "12px"}`,
@@ -103,9 +119,15 @@ export function ClassicLoader({
         </div>
         <span className="sr-only">Loading</span>
       </div>
-      {text && <span className={cn("font-medium text-muted-foreground", textSizes[size])}>{text}</span>}
+      {text && (
+        <span
+          className={cn("font-medium text-muted-foreground", textSizes[size])}
+        >
+          {text}
+        </span>
+      )}
     </div>
-  )
+  );
 }
 
 export function PulseLoader({
@@ -113,21 +135,21 @@ export function PulseLoader({
   size = "md",
   text,
 }: {
-  className?: string
-  size?: "sm" | "md" | "lg"
-  text?: string
+  className?: string;
+  size?: "sm" | "md" | "lg";
+  text?: string;
 }) {
   const sizeClasses = {
     sm: "size-4",
     md: "size-5",
     lg: "size-6",
-  }
+  };
 
   const textSizes = {
     sm: "text-xs",
     md: "text-sm",
     lg: "text-base",
-  }
+  };
 
   return (
     <div className={cn("flex flex-col items-center gap-2", className)}>
@@ -135,9 +157,15 @@ export function PulseLoader({
         <div className="absolute inset-0 border-2 border-primary rounded-full animate-[thin-pulse_1.5s_ease-in-out_infinite]" />
         <span className="sr-only">Loading</span>
       </div>
-      {text && <span className={cn("font-medium text-muted-foreground", textSizes[size])}>{text}</span>}
+      {text && (
+        <span
+          className={cn("font-medium text-muted-foreground", textSizes[size])}
+        >
+          {text}
+        </span>
+      )}
     </div>
-  )
+  );
 }
 
 export function PulseDotLoader({
@@ -145,30 +173,41 @@ export function PulseDotLoader({
   size = "md",
   text,
 }: {
-  className?: string
-  size?: "sm" | "md" | "lg"
-  text?: string
+  className?: string;
+  size?: "sm" | "md" | "lg";
+  text?: string;
 }) {
   const sizeClasses = {
     sm: "size-1",
     md: "size-2",
     lg: "size-3",
-  }
+  };
 
   const textSizes = {
     sm: "text-xs",
     md: "text-sm",
     lg: "text-base",
-  }
+  };
 
   return (
     <div className={cn("flex flex-col items-center gap-2", className)}>
-      <div className={cn("bg-primary rounded-full animate-[pulse-dot_1.2s_ease-in-out_infinite]", sizeClasses[size])}>
+      <div
+        className={cn(
+          "bg-primary rounded-full animate-[pulse-dot_1.2s_ease-in-out_infinite]",
+          sizeClasses[size]
+        )}
+      >
         <span className="sr-only">Loading</span>
       </div>
-      {text && <span className={cn("font-medium text-muted-foreground", textSizes[size])}>{text}</span>}
+      {text && (
+        <span
+          className={cn("font-medium text-muted-foreground", textSizes[size])}
+        >
+          {text}
+        </span>
+      )}
     </div>
-  )
+  );
 }
 
 export function DotsLoader({
@@ -176,27 +215,27 @@ export function DotsLoader({
   size = "md",
   text,
 }: {
-  className?: string
-  size?: "sm" | "md" | "lg"
-  text?: string
+  className?: string;
+  size?: "sm" | "md" | "lg";
+  text?: string;
 }) {
   const dotSizes = {
     sm: "h-1.5 w-1.5",
     md: "h-2 w-2",
     lg: "h-2.5 w-2.5",
-  }
+  };
 
   const containerSizes = {
     sm: "h-4",
     md: "h-5",
     lg: "h-6",
-  }
+  };
 
   const textSizes = {
     sm: "text-xs",
     md: "text-sm",
     lg: "text-base",
-  }
+  };
 
   return (
     <div className={cn("flex items-center gap-3", className)}>
@@ -204,7 +243,10 @@ export function DotsLoader({
         {[...Array(3)].map((_, i) => (
           <div
             key={i}
-            className={cn("bg-primary rounded-full animate-[bounce-dots_1.4s_ease-in-out_infinite]", dotSizes[size])}
+            className={cn(
+              "bg-primary rounded-full animate-[bounce-dots_1.4s_ease-in-out_infinite]",
+              dotSizes[size]
+            )}
             style={{
               animationDelay: `${i * 160}ms`,
             }}
@@ -212,9 +254,15 @@ export function DotsLoader({
         ))}
         <span className="sr-only">Loading</span>
       </div>
-      {text && <span className={cn("font-medium text-muted-foreground", textSizes[size])}>{text}</span>}
+      {text && (
+        <span
+          className={cn("font-medium text-muted-foreground", textSizes[size])}
+        >
+          {text}
+        </span>
+      )}
     </div>
-  )
+  );
 }
 
 export function TypingLoader({
@@ -222,36 +270,45 @@ export function TypingLoader({
   size = "md",
   text,
 }: {
-  className?: string
-  size?: "sm" | "md" | "lg"
-  text?: string
+  className?: string;
+  size?: "sm" | "md" | "lg";
+  text?: string;
 }) {
   const dotSizes = {
     sm: "h-1 w-1",
     md: "h-1.5 w-1.5",
     lg: "h-2 w-2",
-  }
+  };
 
   const containerSizes = {
     sm: "h-4",
     md: "h-5",
     lg: "h-6",
-  }
+  };
 
   const textSizes = {
     sm: "text-xs",
     md: "text-sm",
     lg: "text-base",
-  }
+  };
 
   return (
     <div className={cn("flex items-center gap-3", className)}>
-      {text && <span className={cn("font-medium text-muted-foreground", textSizes[size])}>{text}</span>}
+      {text && (
+        <span
+          className={cn("font-medium text-muted-foreground", textSizes[size])}
+        >
+          {text}
+        </span>
+      )}
       <div className={cn("flex items-center space-x-1", containerSizes[size])}>
         {[...Array(3)].map((_, i) => (
           <div
             key={i}
-            className={cn("bg-primary rounded-full animate-[typing_1s_infinite]", dotSizes[size])}
+            className={cn(
+              "bg-primary rounded-full animate-[typing_1s_infinite]",
+              dotSizes[size]
+            )}
             style={{
               animationDelay: `${i * 250}ms`,
             }}
@@ -260,7 +317,7 @@ export function TypingLoader({
         <span className="sr-only">Loading</span>
       </div>
     </div>
-  )
+  );
 }
 
 export function WaveLoader({
@@ -268,33 +325,33 @@ export function WaveLoader({
   size = "md",
   text,
 }: {
-  className?: string
-  size?: "sm" | "md" | "lg"
-  text?: string
+  className?: string;
+  size?: "sm" | "md" | "lg";
+  text?: string;
 }) {
   const barWidths = {
     sm: "w-0.5",
     md: "w-0.5",
     lg: "w-1",
-  }
+  };
 
   const containerSizes = {
     sm: "h-4",
     md: "h-5",
     lg: "h-6",
-  }
+  };
 
   const textSizes = {
     sm: "text-xs",
     md: "text-sm",
     lg: "text-base",
-  }
+  };
 
   const heights = {
     sm: ["6px", "9px", "12px", "9px", "6px"],
     md: ["8px", "12px", "16px", "12px", "8px"],
     lg: ["10px", "15px", "20px", "15px", "10px"],
-  }
+  };
 
   return (
     <div className={cn("flex items-center gap-3", className)}>
@@ -302,7 +359,10 @@ export function WaveLoader({
         {[...Array(5)].map((_, i) => (
           <div
             key={i}
-            className={cn("bg-primary rounded-full animate-[wave_1s_ease-in-out_infinite]", barWidths[size])}
+            className={cn(
+              "bg-primary rounded-full animate-[wave_1s_ease-in-out_infinite]",
+              barWidths[size]
+            )}
             style={{
               animationDelay: `${i * 100}ms`,
               height: heights[size][i],
@@ -311,9 +371,15 @@ export function WaveLoader({
         ))}
         <span className="sr-only">Loading</span>
       </div>
-      {text && <span className={cn("font-medium text-muted-foreground", textSizes[size])}>{text}</span>}
+      {text && (
+        <span
+          className={cn("font-medium text-muted-foreground", textSizes[size])}
+        >
+          {text}
+        </span>
+      )}
     </div>
-  )
+  );
 }
 
 export function BarsLoader({
@@ -321,27 +387,27 @@ export function BarsLoader({
   size = "md",
   text,
 }: {
-  className?: string
-  size?: "sm" | "md" | "lg"
-  text?: string
+  className?: string;
+  size?: "sm" | "md" | "lg";
+  text?: string;
 }) {
   const barWidths = {
     sm: "w-1",
     md: "w-1.5",
     lg: "w-2",
-  }
+  };
 
   const containerSizes = {
     sm: "h-4 gap-1",
     md: "h-5 gap-1.5",
     lg: "h-6 gap-2",
-  }
+  };
 
   const textSizes = {
     sm: "text-xs",
     md: "text-sm",
     lg: "text-base",
-  }
+  };
 
   return (
     <div className={cn("flex items-center gap-3", className)}>
@@ -349,7 +415,10 @@ export function BarsLoader({
         {[...Array(3)].map((_, i) => (
           <div
             key={i}
-            className={cn("bg-primary h-full animate-[wave-bars_1.2s_ease-in-out_infinite]", barWidths[size])}
+            className={cn(
+              "bg-primary h-full animate-[wave-bars_1.2s_ease-in-out_infinite]",
+              barWidths[size]
+            )}
             style={{
               animationDelay: `${i * 0.2}s`,
             }}
@@ -357,9 +426,15 @@ export function BarsLoader({
         ))}
         <span className="sr-only">Loading</span>
       </div>
-      {text && <span className={cn("font-medium text-muted-foreground", textSizes[size])}>{text}</span>}
+      {text && (
+        <span
+          className={cn("font-medium text-muted-foreground", textSizes[size])}
+        >
+          {text}
+        </span>
+      )}
     </div>
-  )
+  );
 }
 
 export function TerminalLoader({
@@ -367,37 +442,52 @@ export function TerminalLoader({
   text = "Loading",
   size = "md",
 }: {
-  className?: string
-  text?: string
-  size?: "sm" | "md" | "lg"
+  className?: string;
+  text?: string;
+  size?: "sm" | "md" | "lg";
 }) {
   const cursorSizes = {
     sm: "h-3 w-1.5",
     md: "h-4 w-2",
     lg: "h-5 w-2.5",
-  }
+  };
 
   const textSizes = {
     sm: "text-xs",
     md: "text-sm",
     lg: "text-base",
-  }
+  };
 
   const containerSizes = {
     sm: "h-4",
     md: "h-5",
     lg: "h-6",
-  }
+  };
 
   return (
     <div className="flex flex-col items-start gap-1">
-      <div className={cn("flex items-center space-x-1", containerSizes[size], className)}>
-        <span className={cn("font-mono text-primary", textSizes[size])}>{">"}</span>
-        <div className={cn("bg-primary animate-[blink_1s_step-end_infinite]", cursorSizes[size])} />
+      <div
+        className={cn(
+          "flex items-center space-x-1",
+          containerSizes[size],
+          className
+        )}
+      >
+        <span className={cn("font-mono text-primary", textSizes[size])}>
+          {">"}
+        </span>
+        <div
+          className={cn(
+            "bg-primary animate-[blink_1s_step-end_infinite]",
+            cursorSizes[size]
+          )}
+        />
       </div>
-      <span className={cn("font-mono text-primary", textSizes[size])}>{text}</span>
+      <span className={cn("font-mono text-primary", textSizes[size])}>
+        {text}
+      </span>
     </div>
-  )
+  );
 }
 
 export function TextBlinkLoader({
@@ -405,21 +495,27 @@ export function TextBlinkLoader({
   className,
   size = "md",
 }: {
-  text?: string
-  className?: string
-  size?: "sm" | "md" | "lg"
+  text?: string;
+  className?: string;
+  size?: "sm" | "md" | "lg";
 }) {
   const textSizes = {
     sm: "text-xs",
     md: "text-sm",
     lg: "text-base",
-  }
+  };
 
   return (
-    <div className={cn("font-medium animate-[text-blink_2s_ease-in-out_infinite]", textSizes[size], className)}>
+    <div
+      className={cn(
+        "font-medium animate-[text-blink_2s_ease-in-out_infinite]",
+        textSizes[size],
+        className
+      )}
+    >
       {text}
     </div>
-  )
+  );
 }
 
 export function TextShimmerLoader({
@@ -427,15 +523,15 @@ export function TextShimmerLoader({
   className,
   size = "md",
 }: {
-  text?: string
-  className?: string
-  size?: "sm" | "md" | "lg"
+  text?: string;
+  className?: string;
+  size?: "sm" | "md" | "lg";
 }) {
   const textSizes = {
     sm: "text-xs",
     md: "text-sm",
     lg: "text-base",
-  }
+  };
 
   return (
     <div
@@ -444,12 +540,12 @@ export function TextShimmerLoader({
         "bg-[200%_auto] bg-clip-text font-medium text-transparent",
         "animate-[shimmer_4s_infinite_linear]",
         textSizes[size],
-        className,
+        className
       )}
     >
       {text}
     </div>
-  )
+  );
 }
 
 export function TextDotsLoader({
@@ -457,57 +553,72 @@ export function TextDotsLoader({
   text = "Thinking",
   size = "md",
 }: {
-  className?: string
-  text?: string
-  size?: "sm" | "md" | "lg"
+  className?: string;
+  text?: string;
+  size?: "sm" | "md" | "lg";
 }) {
   const textSizes = {
     sm: "text-xs",
     md: "text-sm",
     lg: "text-base",
-  }
+  };
 
   return (
     <div className={cn("inline-flex items-center", className)}>
-      <span className={cn("font-medium text-primary", textSizes[size])}>{text}</span>
+      <span className={cn("font-medium text-primary", textSizes[size])}>
+        {text}
+      </span>
       <span className="inline-flex">
-        <span className="text-primary animate-[loading-dots_1.4s_infinite_0.2s]">.</span>
-        <span className="text-primary animate-[loading-dots_1.4s_infinite_0.4s]">.</span>
-        <span className="text-primary animate-[loading-dots_1.4s_infinite_0.6s]">.</span>
+        <span className="text-primary animate-[loading-dots_1.4s_infinite_0.2s]">
+          .
+        </span>
+        <span className="text-primary animate-[loading-dots_1.4s_infinite_0.4s]">
+          .
+        </span>
+        <span className="text-primary animate-[loading-dots_1.4s_infinite_0.6s]">
+          .
+        </span>
       </span>
     </div>
-  )
+  );
 }
 
-function Loader({ variant = "circular", size = "md", text, className }: LoaderProps) {
+function Loader({
+  variant = "circular",
+  size = "md",
+  text,
+  className,
+}: LoaderProps) {
   switch (variant) {
     case "circular":
-      return <CircularLoader size={size} text={text} className={className} />
+      return <CircularLoader size={size} text={text} className={className} />;
     case "classic":
-      return <ClassicLoader size={size} text={text} className={className} />
+      return <ClassicLoader size={size} text={text} className={className} />;
     case "pulse":
-      return <PulseLoader size={size} text={text} className={className} />
+      return <PulseLoader size={size} text={text} className={className} />;
     case "pulse-dot":
-      return <PulseDotLoader size={size} text={text} className={className} />
+      return <PulseDotLoader size={size} text={text} className={className} />;
     case "dots":
-      return <DotsLoader size={size} text={text} className={className} />
+      return <DotsLoader size={size} text={text} className={className} />;
     case "typing":
-      return <TypingLoader size={size} text={text} className={className} />
+      return <TypingLoader size={size} text={text} className={className} />;
     case "wave":
-      return <WaveLoader size={size} text={text} className={className} />
+      return <WaveLoader size={size} text={text} className={className} />;
     case "bars":
-      return <BarsLoader size={size} text={text} className={className} />
+      return <BarsLoader size={size} text={text} className={className} />;
     case "terminal":
-      return <TerminalLoader text={text} size={size} className={className} />
+      return <TerminalLoader text={text} size={size} className={className} />;
     case "text-blink":
-      return <TextBlinkLoader text={text} size={size} className={className} />
+      return <TextBlinkLoader text={text} size={size} className={className} />;
     case "text-shimmer":
-      return <TextShimmerLoader text={text} size={size} className={className} />
+      return (
+        <TextShimmerLoader text={text} size={size} className={className} />
+      );
     case "loading-dots":
-      return <TextDotsLoader text={text} size={size} className={className} />
+      return <TextDotsLoader text={text} size={size} className={className} />;
     default:
-      return <CircularLoader size={size} text={text} className={className} />
+      return <CircularLoader size={size} text={text} className={className} />;
   }
 }
 
-export { Loader }
+export { Loader };
